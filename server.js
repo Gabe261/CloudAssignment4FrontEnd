@@ -12,8 +12,18 @@ const API_BASE = "https://api-gateway-team1.onrender.com";
 
 // Get all products
 app.get("/", async (req, res) => {
-    const products = await fetch(`${API_BASE}/product`).then(r => r.json());
-    res.render("index.ejs", { products });
+  const products = await fetch(`${API_BASE}/product`).then(r => r.json());
+  const inventory = await fetch(`${API_BASE}/inventory`).then(r => r.json());
+
+  const productsWithInventory = inventory.map(inv => {
+    const product = products.find(p => p.id === inv.productId);
+    return {
+      ...product,
+      quantity: inv.quantity
+    };
+  });
+
+  res.render("index.ejs", { productsWithInventory });
 });
 
 // Get all Items in Cart

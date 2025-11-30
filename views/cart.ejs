@@ -13,15 +13,14 @@
         <a href="/" class="btn btn-outline-light">Continue Shopping</a>
     </nav>
 
-    <!-- Empty Cart Button -->
-    <form method="POST" action="/emptycart" class="mt-3">
-        <button class="btn btn-primary">
-            Empty Cart
-        </button>
-    </form>
     <div class="container py-4">
             <div class="row">
-
+                <!-- Empty Cart Button -->
+                <form method="POST" action="/emptycart" class="mt-3">
+                    <button class="btn btn-primary">
+                        Empty Cart
+                    </button>
+                </form>
                 <!-- All Cart Items -->
                 <% cartItems.forEach(c => { %>
                     <% const product = cartProducts.find(p => p.id === c.productId); %>
