@@ -17,11 +17,11 @@
         <div class="row">
 
             <!-- Load all the products available to be added to cars -->
-            <% products.forEach(p=> { %>
+            <% productsWithInventory.forEach(p=> { %>
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
 
-                        <img src="<%= p.image %>" class="card-img-top" style="height: 200px; object-fit: contain;">
+                        <img src="<%= p.image %>" class="card-img-top mt-2" style="height: 200px; object-fit: contain;">
 
                         <div class="card-body">
                             <h5 class="card-title">
@@ -30,14 +30,18 @@
                             <p class="card-text">
                                 <%= p.description %>
                             </p>
-                            <p class="card-text fw-bold">$<%= p.price %>
+                            <p class="card-text fw-bold m-0">$<%= p.price %>
+                            </p>
+                            <p class="card-text m-0">Quantity: <%= p.quantity %>
                             </p>
                             <p class="text-muted">SKU: <%= p.sku %>
                             </p>
 
                             <form method="POST" action="/addtocart">
                                 <input type="hidden" name="id" value="<%= p.id %>">
-                                <button class="btn btn-primary w-100">Add to Cart</button>
+                                <button class="btn btn-primary w-100" <%= p.quantity === 0 ? "disabled" : "" %>>
+                                    <%= p.quantity === 0 ? "Out of Stock" : "Add to Cart" %>
+                                </button>
                             </form>
                         </div>
 
