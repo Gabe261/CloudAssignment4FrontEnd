@@ -1,31 +1,20 @@
 const express = require("express");
 const path = require("path");
-const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args)); // if you want proxying
+// const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args)); // if you want proxying
 
 const app = express();
 const PORT = process.env.PORT || 8089;
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-const BACKEND_BASE_URL = "https://product-service-team1.onrender.com";
+const API_BASE = "https://api-gateway-team1.onrender.com";
 
-app.use("/api", async (req, res) => {
-  const url = BACKEND_BASE_URL + req.url;
-
-  try {
-    const backendRes = await fetch(url, {
-      method: req.method,
-      headers: { "Content-Type": "application/json" },
-      body: ["GET", "HEAD"].includes(req.method) ? undefined : req.body,
-    });
-
-    const data = await backendRes.text();
-    res.status(backendRes.status).send(data);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Proxy error" });
-  }
+app.get("/", async (req, res) => {
+    const products = await fetch(`${API_BASE}/product`).then(r => r.json());
+    res.render("index.ejs", { products });
 });
+
 
 // Start server
 app.listen(PORT, () => {
