@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 const API_BASE = "https://api-gateway-team1.onrender.com";
+// const API_BASE = "http://localhost:8080";
 
 // Get all products
 app.get("/", async (req, res) => {
@@ -104,6 +105,28 @@ app.post("/emptycart", async (req, res) => {
         }
 
         res.redirect("/cart");
+
+    } catch (err) {
+        console.error("Server error emptying cart:", err);
+        res.status(500).send("Server error while emptying cart");
+    }
+});
+
+// Checkout
+app.post("/checkout", async (req, res) => {
+    try {
+        const response = await fetch(`${API_BASE}/order`, {
+            method: "POST"
+        });
+
+        if (!response.ok) {
+            console.error("Error checking out:", response.status, response.statusText);
+            const body = await response.text();
+            console.error("Response body:", body);
+            return res.status(500).send("Failed to empty cart");
+        }
+
+        res.render("order.ejs");
 
     } catch (err) {
         console.error("Server error emptying cart:", err);

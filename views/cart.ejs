@@ -16,7 +16,7 @@
     <div class="container py-4">
             <div class="row">
                 <!-- Empty Cart Button -->
-                <form method="POST" action="/emptycart" class="mt-3">
+                <form method="POST" action="/emptycart" class="my-3">
                     <button class="btn btn-primary">
                         Empty Cart
                     </button>
@@ -79,6 +79,12 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <form method="POST" action="/checkout" class="my-3">
+                        <button class="btn btn-primary">
+                            Checkout
+                        </button>
+                    </form>
 
                 <% }) %>
 
@@ -86,7 +92,7 @@
         </div>
 
 </body>
-<footer>
+<footer class="container">
     <p>Created By Dany Ko (8818957), Gabe Siewert (8832384), Josh Lanesmith (8885373), Nakul Upasani (8827362), Stefan Kobetich (8832196)</p>
 </footer>
 </html>
